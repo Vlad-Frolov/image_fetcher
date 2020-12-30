@@ -2,10 +2,12 @@
 # frozen_string_literal: true
 
 require 'fileutils'
-
 Dir["#{File.dirname(__FILE__)}/image_fetcher/**/*.rb"].sort.each(&method(:require))
 
-FileUtils.mkdir_p File.join(File.dirname(ARGV[0]), 'images')
+unless File.file?(ARGV[0].to_s)
+  puts "file '#{ARGV[0]}' not found"
+  exit
+end
 
-result = ::ImageFetcher::Downloader.process_from(ARGV[0], ARGV[1] || 8)
-puts result.failed_downloads
+FileUtils.mkdir_p File.join(File.dirname(ARGV[0]), 'images')
+puts ::ImageFetcher::Downloader.process_from(ARGV[0], ARGV[1]&.to_i || 8)

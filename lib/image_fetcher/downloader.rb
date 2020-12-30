@@ -2,7 +2,7 @@
 
 module ImageFetcher
   class Downloader
-    def self.process_from(file_path, batch_size = 8)
+    def self.process_from(file_path, batch_size)
       new(file_path, batch_size).process
     end
 

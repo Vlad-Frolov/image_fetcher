@@ -15,11 +15,13 @@ describe ImageFetcher::Downloader do
   end
 
   describe '::process_from' do
-    subject(:result) { described_class.process_from(file_path) }
+    subject(:result) { described_class.process_from(file_path, batch_size) }
+
+    let(:batch_size) { (1..8).to_a.sample }
 
     before do
       stub = double(described_class)
-      expect(described_class).to receive(:new).with(file_path, 8).and_return(stub)
+      expect(described_class).to receive(:new).with(file_path, batch_size).and_return(stub)
       expect(stub).to receive(:process).and_return('passed')
     end
 
