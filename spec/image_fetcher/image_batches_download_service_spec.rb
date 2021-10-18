@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'byebug'
+require 'spec_helper'
 
 describe ImageBatchesDownloadService do
   let(:target_folder) { Dir.mktmpdir }
@@ -17,24 +17,18 @@ describe ImageBatchesDownloadService do
 
     context 'when there are no errors' do
       before do
-        images.each do |image_name, image_url|
-          stub_request(:get, image_url).to_return(status: 200, body: File.new("#{fixtures_path}#{image_name}"))
-        end
+        images.each { |image_name, image_url| stub_request(:get, image_url).to_return(status: 200, body: image_name) }
       end
 
       it 'downloads images into the target folder' do
         expect(subject).to eq([])
 
-        # compares fixture file names with downloaded file names
         downloaded_images = Dir["#{target_folder}/*.png"].map(&File.method(:basename))
         expect(downloaded_images).to match_array(images.keys)
 
-        # compares fixture files contents with downloaded files contents
         downloaded_images.each do |image_path|
           donwloaded_file = "#{target_folder}/#{image_path}"
-          fixture_file = "#{fixtures_path}#{File.basename(image_path)}"
-
-          expect(FileUtils.compare_file(donwloaded_file, fixture_file)).to be(true)
+          expect(File.read(donwloaded_file).strip).to eq(image_path)
         end
       end
     end

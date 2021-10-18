@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'spec_helper'
+
 describe ImagesDownloadService do
   let(:image_urls) do
     %w[https://homepages.cae.wisc.edu/~ece533/images/airplane.png
@@ -27,7 +29,7 @@ describe ImagesDownloadService do
     shared_examples 'returns an expected result and calls Images Batches Download Service' do
       it do
         expect(subject).to eq(expected_result)
-        expect(batches_download_service).to have_received(:call)
+        expect(batches_download_service).to have_received(:call).with(no_args)
       end
     end
 
