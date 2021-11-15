@@ -11,3 +11,6 @@ Here is a simple and compact solution using Threads and OpenUri. This solution s
 4. `./image_fetcher.rb path_to_file`
 
 Example of usage: `./image_fetcher.rb ../testfile 2` or `./image_fetcher.rb ../testfile` (8 batches will be used by default)
+
+# Demo
+https://www.youtube.com/watch?v=dUgnJacsJjE&ab_channel=VladislavFrolov
